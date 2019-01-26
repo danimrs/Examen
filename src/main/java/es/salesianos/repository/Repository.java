@@ -7,132 +7,288 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.salesianos.connection.AbstractConnection;
-import es.salesianos.connection.H2Connection;
+import es.salesianos.connection.ConnectionH2;
+import es.salesianos.connection.ConnectionManager;
 import es.salesianos.model.Actor;
 import es.salesianos.model.Director;
-import es.salesianos.model.Pelicula;
+import es.salesianos.model.Film;
+import es.salesianos.model.FilmsActors;
+
+
 
 public class Repository {
-
+	
 	private static final String jdbcUrl = "jdbc:h2:file:./src/main/resources/test";
-	AbstractConnection manager = new H2Connection();
+	ConnectionManager manager = new ConnectionH2();
 
+
+	private void close(PreparedStatement prepareStatement) {
+		try {
+			prepareStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void close(ResultSet resultSet) {
+		try {
+			resultSet.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
 
 	public void insert(Actor actor) {
 		Connection conn = manager.open(jdbcUrl);
 		PreparedStatement preparedStatement = null;
 		try {
-			preparedStatement = conn
-					.prepareStatement("INSERT INTO ACTOR (cod,name,yearOfBirthDate)" + "VALUES (?, ?, ?)");
-			preparedStatement.setInt(1, actor.getCod());
-			preparedStatement.setString(2, actor.getNombre());
-			preparedStatement.setInt(2, actor.getYear());
+			preparedStatement = conn.prepareStatement("INSERT INTO ACTOR (NAME,YEAROFBIRTHDATE)" +
+					"VALUES (?, ?)");
+			preparedStatement.setString(1, actor.getName());
+			preparedStatement.setInt(2, actor.getYearofbirthday());
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		} finally {
-			manager.close(preparedStatement);
-			manager.close(conn);
+		}finally {
+			close(preparedStatement);
 		}
-
+		
+		
+		manager.close(conn);
 	}
 	
-	
-	public void insert(Pelicula pelicula) {
+	public void insertFilm(Film film) {
 		Connection conn = manager.open(jdbcUrl);
 		PreparedStatement preparedStatement = null;
 		try {
-			preparedStatement = conn
-					.prepareStatement("INSERT INTO Pelicula (cod, title, codOwner)" + "VALUES (?, ?, ?)");
-			preparedStatement.setInt(1, pelicula.getCod());
-			preparedStatement.setString(2, pelicula.getTitle());
-			preparedStatement.setInt(3, pelicula.getCodDirector());
+			preparedStatement = conn.prepareStatement("INSERT INTO FILM (TITTLE,CODOWNER)" +
+					"VALUES (?, ?)");
+			preparedStatement.setString(1, film.getTITTLE());
+			preparedStatement.setInt(2, film.getCODOWNER());
+
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		} finally {
-			manager.close(preparedStatement);
-			manager.close(conn);
+		}finally {
+			close(preparedStatement);
 		}
-
+		
+		
+		manager.close(conn);
 	}
 	
-	public void insert(Director director) {
+	public void insertDirector(Director director) {
 		Connection conn = manager.open(jdbcUrl);
 		PreparedStatement preparedStatement = null;
 		try {
-			preparedStatement = conn
-					.prepareStatement("INSERT INTO DIRECTOR (cod, name)" + "VALUES (?, ?)");
-			preparedStatement.setInt(1, director.getCod());
-			preparedStatement.setString(2, director.getNombre());
+			preparedStatement = conn.prepareStatement("INSERT INTO DIRECTOR (NAME)" +
+					"VALUES (?)");
+			preparedStatement.setString(1, director.getName());
+
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		} finally {
-			manager.close(preparedStatement);
-			manager.close(conn);
+		}finally {
+			close(preparedStatement);
 		}
-
+		
+		
+		manager.close(conn);
 	}
 	
-	public void delete(Actor actor) {
+
+	public List<Actor> searchActors() {
+		List<Actor> listActors = new ArrayList<Actor>();
 		Connection conn = manager.open(jdbcUrl);
-		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		PreparedStatement prepareStatement = null;
 		try {
-			preparedStatement = conn
-					.prepareStatement("DELETE FROM ACTOR WHERE cod=?");
-			preparedStatement.setInt(1, actor.getCod());
-			preparedStatement.executeUpdate();
+			
+			prepareStatement = conn.prepareStatement("SELECT * FROM ACTOR");
+			resultSet = prepareStatement.executeQuery();
+			while (resultSet.next()) {
+				Actor actorInDataBase = new Actor();
+				
+				actorInDataBase.setCod(resultSet.getInt(1));
+				actorInDataBase.setName(resultSet.getString(2));
+				actorInDataBase.setYearofbirthday(resultSet.getInt(3));
+			
+				
+				listActors.add(actorInDataBase);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			manager.close(preparedStatement);
+			close(resultSet);
+			close(prepareStatement);
 			manager.close(conn);
 		}
 
+		return listActors;
 	}
 	
-	public void delete(Pelicula actor) {
+	public List<Director> BuscarDirectores() {
+		List<Director> listDirectors = new ArrayList<Director>();
 		Connection conn = manager.open(jdbcUrl);
-		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		PreparedStatement prepareStatement = null;
 		try {
-			preparedStatement = conn
-					.prepareStatement("DELETE FROM PELICULA WHERE cod=?");
-			preparedStatement.setInt(1, actor.getCod());
-			preparedStatement.executeUpdate();
+			
+			prepareStatement = conn.prepareStatement("SELECT * FROM DIRECTOR");
+			resultSet = prepareStatement.executeQuery();
+			while (resultSet.next()) {
+				Director directorInDataBase = new Director();
+				
+				directorInDataBase.setCod(resultSet.getInt(1));
+				directorInDataBase.setName(resultSet.getString(2));
+			
+				
+				listDirectors.add(directorInDataBase);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			manager.close(preparedStatement);
+			close(resultSet);
+			close(prepareStatement);
 			manager.close(conn);
 		}
 
-	}
-
-	public void delete(Director actor) {
-		Connection conn = manager.open(jdbcUrl);
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = conn
-					.prepareStatement("DELETE FROM DIRECTOR WHERE cod=?");
-			preparedStatement.setInt(1, actor.getCod());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} finally {
-			manager.close(preparedStatement);
-			manager.close(conn);
-		}
-
+		return listDirectors;
 	}
 	
+	public List<Film> searchAllFilms() {
+		List<Film> listFilms = new ArrayList<Film>();
+		Connection conn = manager.open(jdbcUrl);
+		ResultSet resultSet = null;
+		PreparedStatement prepareStatement = null;
+		try {
+			
+			prepareStatement = conn.prepareStatement("SELECT * FROM FILM");
+			resultSet = prepareStatement.executeQuery();
+			while (resultSet.next()) {
+				Film filmInDataBase = new Film();
+				
+				filmInDataBase.setCOD(resultSet.getInt(1));
+				filmInDataBase.setTITTLE(resultSet.getString(2));
+				filmInDataBase.setCODOWNER(resultSet.getInt(3));
+
+			
+				listFilms.add(filmInDataBase);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(resultSet);
+			close(prepareStatement);
+			manager.close(conn);
+		}
+
+		return listFilms;
+	}
+	
+	
+	
+	
+
+	
+
+	public Actor searchAndDeleteActor(Integer codActor) {
+		Actor ownerInDatabase = null;
+		PreparedStatement prepareStatement = null;
+		Connection conn = manager.open(jdbcUrl);
+		try {
+			prepareStatement = conn.prepareStatement("DELETE FROM ACTOR WHERE COD = ?");
+			prepareStatement.setInt(1, codActor);
+			prepareStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(prepareStatement);
+		}
+
+		manager.close(conn);
+		return ownerInDatabase;
+	}
+	
+	public Director searchAndDeleteDirector(Integer codDirector) {
+		Director ownerInDatabase = null;
+		PreparedStatement prepareStatement = null;
+		Connection conn = manager.open(jdbcUrl);
+		try {
+			prepareStatement = conn.prepareStatement("DELETE FROM DIRECTOR WHERE COD = ?");
+			prepareStatement.setInt(1, codDirector);
+			prepareStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(prepareStatement);
+		}
+		manager.close(conn);
+		return ownerInDatabase;
+	}
+	
+	public Film searchAndDeletePelicula(Integer codPelicula) {
+		Film ownerInDatabase = null;
+		PreparedStatement prepareStatement = null;
+		Connection conn = manager.open(jdbcUrl);
+		try {
+			prepareStatement = conn.prepareStatement("DELETE FROM FILM WHERE COD = ?");
+			prepareStatement.setInt(1, codPelicula);
+			prepareStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(prepareStatement);
+		}
+		manager.close(conn);
+		return ownerInDatabase;
+	}
+	
+	public List<Actor> filterAllActor(int beginDate, int endDate) {
+		Connection conn = manager.open(jdbcUrl);
+		PreparedStatement preparedStatement = null;
+		List<Actor> list = new ArrayList<Actor>();
+		try {
+			preparedStatement = conn
+					.prepareStatement("SELECT * FROM ACTOR WHERE yearOfBirthDate BETWEEN (?) AND (?)");
+			preparedStatement.setInt(1, beginDate);
+			preparedStatement.setInt(2, endDate);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Actor actor = new Actor();
+				actor.setCod(resultSet.getInt(1));
+				actor.setName(resultSet.getNString(2));
+				actor.setYearofbirthday(resultSet.getInt(3));
+				list.add(actor);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(preparedStatement);
+			manager.close(conn);
+		}
+		return list;
+	}
 	
 	public List<Actor> selectAllActor() {
 		Connection conn = manager.open(jdbcUrl);
@@ -144,9 +300,9 @@ public class Repository {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				Actor actor = new Actor();
-				actor.setCod(resultSet.getInt(0));
-				actor.setNombre(resultSet.getNString(0));
-				actor.setYear(resultSet.getInt(2));
+				actor.setCod(resultSet.getInt(1));
+				actor.setName(resultSet.getNString(2));
+				actor.setYearofbirthday(resultSet.getInt(3));
 				list.add(actor);
 			}
 			
@@ -154,61 +310,35 @@ public class Repository {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			manager.close(preparedStatement);
+			close(preparedStatement);
 			manager.close(conn);
-		}
+}
 		return list;
 	}
 	
-	public List<Director> selectAllDirector() {
+	public void insert(FilmsActors filmActor) {
 		Connection conn = manager.open(jdbcUrl);
 		PreparedStatement preparedStatement = null;
-		List<Director> list = new ArrayList<Director>();
 		try {
 			preparedStatement = conn
-					.prepareStatement("SELECT * FROM DIRECTOR");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				Director director = new Director();
-				director.setCod(resultSet.getInt(0));
-				director.setNombre(resultSet.getNString(0));
-				list.add(director);
-			}
-			
+					.prepareStatement("INSERT INTO FILMACTOR (cache, role, codActor, codFilm)" + "VALUES (?, ?, ?, ?)");
+			preparedStatement.setInt(1, filmActor.getCache());
+			preparedStatement.setString(2, filmActor.getRole());
+			preparedStatement.setInt(3, filmActor.getCodActor());
+			preparedStatement.setInt(4, filmActor.getCodPelicula());
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			manager.close(preparedStatement);
+			close(preparedStatement);
 			manager.close(conn);
 		}
-		return list;
+
 	}
-	
-	public List<Pelicula> selectAllPelicula() {
-		Connection conn = manager.open(jdbcUrl);
-		PreparedStatement preparedStatement = null;
-		List<Pelicula> list = new ArrayList<Pelicula>();
-		try {
-			preparedStatement = conn
-					.prepareStatement("SELECT * FROM PELICULA");
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				Pelicula director = new Pelicula();
-				director.setCod(resultSet.getInt(0));
-				director.setTitle(resultSet.getString(1));
-				director.setCodDirector(resultSet.getInt(2));
-				list.add(director);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} finally {
-			manager.close(preparedStatement);
-			manager.close(conn);
-		}
-		return list;
-	}
-	
+
+
+
+
+
 }
