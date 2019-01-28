@@ -13,13 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.salesianos.model.Actor;
 import es.salesianos.model.Film;
-import es.salesianos.service.OwnerService;
+import es.salesianos.service.DirectorService;
 
-/**
- * Servlet implementation class addOwnerServlet
- */
 public class AddFilmServlet extends HttpServlet {
-private OwnerService service = new OwnerService();
+private DirectorService service = new DirectorService();
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

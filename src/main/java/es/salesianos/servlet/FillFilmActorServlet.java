@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.salesianos.model.FilmsActors;
 import es.salesianos.model.assembler.FilmsActorsAssembler;
-import es.salesianos.service.OwnerService;
+import es.salesianos.service.DirectorService ;
 public class FillFilmActorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private OwnerService service = new OwnerService();
+	private DirectorService service = new DirectorService ();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.salesianos.model.Film;
 import es.salesianos.model.assembler.PrincipalAssembler;
-import es.salesianos.service.OwnerService;
-import es.salesianos.service.PetService;
+import es.salesianos.service.DirectorService ;
+import es.salesianos.service.ActorService;
 
 /**
  * Servlet implementation class PeliculaActorServlet
@@ -21,8 +21,8 @@ import es.salesianos.service.PetService;
 public class FilmActorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private OwnerService service = new OwnerService();
-	private PetService service2 = new PetService();
+	private DirectorService  service = new DirectorService ();
+	private ActorService service2 = new ActorService();
 
 
 	@Override

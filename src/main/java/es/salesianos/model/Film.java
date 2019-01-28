@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Film {
-	private Integer COD;
+	private Integer cod;
 	private String TITTLE;
 	private Integer CODOWNER;
 	public Integer getCOD() {
-		return COD;
+		return cod;
 	}
 	public void setCOD(Integer cOD) {
-		COD = cOD;
+		cod = cOD;
 	}
 	public String getTITTLE() {
 		return TITTLE;

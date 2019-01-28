@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.salesianos.service.ListService;
-import es.salesianos.service.PetService;
+import es.salesianos.service.ActorService;
 import es.salesianos.model.Actor;
 import es.salesianos.model.Film;
 import es.salesianos.repository.Repository;

@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.salesianos.service.OwnerService;
-import es.salesianos.service.PetService;
+import es.salesianos.service.DirectorService;
+import es.salesianos.service.ActorService;
 
 public class DeleteDirectorServlet extends HttpServlet{
-	private PetService service = new PetService();
+	private ActorService service = new ActorService();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String codDirector = req.getParameter("codDirector");
