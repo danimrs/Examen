@@ -6,25 +6,25 @@ import java.util.List;
 
 public class Film {
 	private Integer cod;
-	private String TITTLE;
-	private Integer CODOWNER;
-	public Integer getCOD() {
+	private String title;
+	private Integer CodDirector;
+	public Integer getCod() {
 		return cod;
 	}
 	public void setCOD(Integer cOD) {
 		cod = cOD;
 	}
-	public String getTITTLE() {
-		return TITTLE;
+	public String getTitle() {
+		return title;
 	}
-	public void setTITTLE(String tITTLE) {
-		TITTLE = tITTLE;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public Integer getCODOWNER() {
-		return CODOWNER;
+	public Integer getCodDirector() {
+		return CodDirector;
 	}
-	public void setCODOWNER(Integer cODOWNER) {
-		CODOWNER = cODOWNER;
+	public void setCodDirector(Integer CodDir) {
+		CodDirector = CodDir;
 	}
 	
 	

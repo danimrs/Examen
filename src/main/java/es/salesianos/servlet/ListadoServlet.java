@@ -23,14 +23,9 @@ public class ListadoServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Actor> listAllActors = servicio.listAllActors();
-		///List<Pelicula> listAllPeliculas = servicio.listAllPeliculas();
-
 		req.setAttribute("listAllActors", listAllActors);
-		///req.setAttribute("listAllPeliculas", listAllPeliculas);
-
 		redirect(req,resp);
 	}
-	
 	
 	protected void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/addActor.jsp");

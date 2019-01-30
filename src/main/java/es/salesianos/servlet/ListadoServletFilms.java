@@ -20,10 +20,8 @@ public class ListadoServletFilms extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Film> listAllFilms = servicio.listAllFilms();
-			
+		List<Film> listAllFilms = servicio.listAllFilms();	
 		req.setAttribute("listAllFilms", listAllFilms);
-
 		redirect(req,resp);
 	}
 	

@@ -24,15 +24,10 @@ public class ListadoServletDirectores extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<Director> listAllDirectors = servicio.listAllDirectors();
-		///List<Pelicula> listAllPeliculas = servicio.listAllPeliculas();
-
 		req.setAttribute("listAllDirectors", listAllDirectors);
-		///req.setAttribute("listAllPeliculas", listAllPeliculas);
-
 		redirect(req,resp);
 	}
-	
-	
+
 	protected void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/addDirector.jsp");
 		dispatcher.forward(req,resp);

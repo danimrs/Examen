@@ -8,9 +8,6 @@ public class ActorService {
 	private Repository repository = new Repository();
 	private RangoFechas conver = new RangoFechas();
 	
-	
-	
-	
 	public void searchAndDeleteActor(Integer codActor) {
 		repository.searchAndDeleteActor(codActor);
 	}
@@ -22,6 +19,4 @@ public class ActorService {
 	public void searchAndDeletePelicula(Integer codFilm) {
 		repository.searchAndDeletePelicula(codFilm);
 	}
-
-
 }

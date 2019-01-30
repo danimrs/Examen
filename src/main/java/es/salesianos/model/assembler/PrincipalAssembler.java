@@ -23,8 +23,8 @@ public class PrincipalAssembler {
 		String title=req.getParameter("TITTLE");
 		Integer codowner=Integer.parseInt(req.getParameter("CODOWNER"));
 
-		film.setTITTLE(title);
-		film.setCODOWNER(codowner);
+		film.setTitle(title);
+		film.setCodDirector(codowner);
 		
 		
 		return film;

@@ -14,9 +14,7 @@ import es.salesianos.model.Film;
 import es.salesianos.model.assembler.PrincipalAssembler;
 import es.salesianos.service.DirectorService;
 
-/**
- * Servlet implementation class RecoveryAddFilmServlet
- */
+
 public class RecoveryAddFilmServlet extends HttpServlet {private static final long serialVersionUID = 1L;
 
 private DirectorService  service = new DirectorService();

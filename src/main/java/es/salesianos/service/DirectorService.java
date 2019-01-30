@@ -15,10 +15,7 @@ import es.salesianos.utils.RangoFechas;
 
 public class DirectorService {
 	
-	
 	private Repository repository = new Repository();
-	private RangoFechas converter = new RangoFechas();
-	
 	
 	public Actor assembleOwnerFromRequest(HttpServletRequest req) {
 		return PrincipalAssembler.assembleOwnerFrom(req);
@@ -59,7 +56,7 @@ public class DirectorService {
 	}
 	
 	public void insert(FilmsActors filmActor) {
-		repository.insert(filmActor);;
+		repository.insert(filmActor);
 	}
 	
 	public Repository getRepository() {

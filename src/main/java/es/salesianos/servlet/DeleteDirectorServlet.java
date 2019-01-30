@@ -15,9 +15,7 @@ public class DeleteDirectorServlet extends HttpServlet{
 	private ActorService service = new ActorService();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String codDirector = req.getParameter("codDirector");
-
-		
+		String codDirector = req.getParameter("codDirector");		
 		service.searchAndDeleteDirector(Integer.parseInt(codDirector));
 		redirect(req, resp);
 	}

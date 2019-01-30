@@ -15,15 +15,11 @@ import es.salesianos.model.assembler.PrincipalAssembler;
 import es.salesianos.service.DirectorService ;
 import es.salesianos.service.ActorService;
 
-/**
- * Servlet implementation class PeliculaActorServlet
- */
 public class FilmActorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private DirectorService  service = new DirectorService ();
 	private ActorService service2 = new ActorService();
-
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
