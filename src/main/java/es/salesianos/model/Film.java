@@ -1,18 +1,15 @@
 package es.salesianos.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+public class Film extends BaseEntity{
 
-public class Film {
-	private Integer cod;
 	private String title;
-	private Integer CodDirector;
-	public Integer getCod() {
-		return cod;
+	private Integer codDirector;
+	
+	public Integer getCodDirector() {
+		return codDirector;
 	}
-	public void setCOD(Integer cOD) {
-		cod = cOD;
+	public void setCodDirector(Integer codDirector) {
+		this.codDirector = codDirector;
 	}
 	public String getTitle() {
 		return title;
@@ -20,15 +17,4 @@ public class Film {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Integer getCodDirector() {
-		return CodDirector;
-	}
-	public void setCodDirector(Integer CodDir) {
-		CodDirector = CodDir;
-	}
-	
-	
-	
-	
-	
 }

@@ -1,4 +1,4 @@
-package es.salesianos.service;
+package es.salesianos.controller;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import es.salesianos.model.Actor;
 import es.salesianos.repository.ActorRepository;
 
 @Service
-public class ActorService {
+public class ActorController {
 
 	@Autowired
 	private ActorRepository repository;
